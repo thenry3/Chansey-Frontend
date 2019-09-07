@@ -8,7 +8,7 @@ export default class SigninPage extends React.Component {
       <>
         <Page>
           <Title>Chansey</Title>
-          <SigninForm></SigninForm>
+          <SigninForm {...this.props}></SigninForm>
         </Page>
       </>
     );

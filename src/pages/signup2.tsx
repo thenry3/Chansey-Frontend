@@ -9,7 +9,7 @@ export default class SignupPage2 extends React.Component {
       <>
         <Page>
           <Title>Chansey</Title>
-          <SignupForm2></SignupForm2>
+          <SignupForm2 {...this.props}></SignupForm2>
         </Page>
       </>
     );

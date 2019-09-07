@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { RouteComponentProps } from "react-router-dom";
+import { SimpleSelect } from "react-selectize";
 
 const Form = styled("form")`
   background: #f7a9a8;
@@ -12,34 +14,11 @@ const Form = styled("form")`
   justify-content: center;
 `;
 
-const Input = styled("input")`
-  border: none;
-  width: 65%;
-  font-size: 1.3vw;
-  padding: 10px 20px;
-  border-radius: 25px;
-  margin-bottom: 10px;
-  color: #464655;
-  &:focus {
-    outline: none;
-  }
-`;
-
-const SignupText = styled("p")`
-  color: white;
-  font-size: 3vw;
-  font-weight: bold;
-  letter-spacing: 0.1em;
-  margin-bottom: 2vh;
-  margin-top: 3vh;
-`;
-
 const FormItems = styled("div")`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  width: 90%;
+  width: 70%;
   font-family: "Quicksand", sans-serif;
 `;
 
@@ -61,36 +40,101 @@ const RegisterButton = styled("button")`
   }
 `;
 
-const ChooseSchool = styled("select")`
+const Choose = styled("select")`
+  margin: 0px;
+  margin-bottom: 1vh;
   outline: none;
   font-family: "Quicksand", sans-serif;
+  font-size: 4vw;
   &:focus {
     outline: none;
   }
 `;
 
-const SchoolOption = styled("option")``;
+const Option = styled("option")``;
 
-export default class SignupForm2 extends React.Component {
+const Section = styled("div")`
+  display: flex;
+  flex-direction: column;
+  font-family: "Quicksand", sans-serif;
+  margin-top: 2vh;
+  color: #464655;
+  font-weight: bold;
+`;
+
+const SectionTitle = styled("p")`
+  font-size: 1.2vw;
+  margin: 0px;
+`;
+
+var uclabuildings = require("./UCLABuildings.json");
+var upennbuildings = require("./UPennBuildings.json");
+
+export default class SignupForm2 extends React.Component<
+  RouteComponentProps,
+  { university: string }
+> {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderOptions = this.renderOptions.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleSubmit() {
+    this.props.history.push("/home");
+  }
+
+  componentWillMount() {
+    this.setState({
+      university: "None"
+    });
+  }
+
+  handleChange(e) {
+    this.setState({
+      university: e.target.value
+    });
+  }
+
+  renderOptions() {
+    if (this.state.university === "upenn") {
+      return upennbuildings["buildings"].map(building => (
+        <Option value={building}>{building}</Option>
+      ));
+    }
+    if (this.state.university === "ucla") {
+      return uclabuildings["buildings"].map(building => (
+        <Option value={building}>{building}</Option>
+      ));
+    }
+    return <Option>--</Option>;
+  }
+
   render() {
     return (
       <>
-        <Form action="/">
+        <Form onSubmit={this.handleSubmit}>
           <FormItems>
-            <ChooseSchool>
-              <SchoolOption value="upenn">
-                University of Pennyslvania
-              </SchoolOption>
-              <SchoolOption value="ucla">
-                University of California - Los Angeles
-              </SchoolOption>
-              <SchoolOption value="umd">
-                University of Maryland, College Park
-              </SchoolOption>
-            </ChooseSchool>
-            <Input placeholder="Name" required></Input>
-            <Input type="email" placeholder="Email Address" required></Input>
-            <Input type="password" placeholder="Password" required></Input>
+            <Section>
+              <SectionTitle>University/College</SectionTitle>
+              <Choose id="university" onChange={this.handleChange}>
+                <Option>Choose a University</Option>
+                <Option value="upenn">University of Pennyslvania</Option>
+                <Option value="ucla">
+                  University of California - Los Angeles
+                </Option>
+              </Choose>
+            </Section>
+            <Section>
+              <SectionTitle>Top 5 most visited buildings</SectionTitle>
+              <Choose>{this.renderOptions()}</Choose>
+              <Choose>{this.renderOptions()}</Choose>
+              <Choose>{this.renderOptions()}</Choose>
+              <Choose>{this.renderOptions()}</Choose>
+              <Choose>{this.renderOptions()}</Choose>
+            </Section>
+
             <RegisterButton type="submit">Register</RegisterButton>
           </FormItems>
         </Form>

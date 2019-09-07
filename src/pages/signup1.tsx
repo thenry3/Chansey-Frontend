@@ -7,7 +7,7 @@ export const Page = styled("div")`
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  background: #feffd1;
+  background: #feffe8;
   align-items: center;
 `;
 
