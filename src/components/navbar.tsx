@@ -46,12 +46,16 @@ const NavText = styled("p")`
   font-size: 2vw;
 `;
 
-export default class NavBar extends React.Component {
+interface auth {
+  loggedin: Boolean;
+}
+
+export default class NavBar extends React.Component<auth> {
   render() {
     return (
       <>
         <NavWrapper>
-          <Title>Chansey</Title>
+          <Title authen={true}>Chansey</Title>
           <LinksDiv>
             <NavLink to="/signup1">
               <NavText>Sign up</NavText>

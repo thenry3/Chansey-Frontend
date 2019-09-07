@@ -13,7 +13,7 @@ export default class LandingPage extends React.Component {
     return (
       <>
         <Page>
-          <NavBar></NavBar>
+          <NavBar loggedin={false}></NavBar>
         </Page>
       </>
     );
